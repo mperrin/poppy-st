@@ -144,7 +144,7 @@ class AnalyticOpticalElement(OpticalElement):
 
     @utils.quantity_input(wavelength=u.meter)
     def sample(self, wavelength=1e-6 * u.meter, npix=512, grid_size=None, what='amplitude',
-               return_scale=False, phase_unit='waves'):
+               return_scale=False, gray_pixel=False, gray_pixel_oversample=4, phase_unit='waves'):
         """ Sample the Analytic Optic onto a grid and return the array
 
         Parameters
@@ -167,7 +167,20 @@ class AnalyticOpticalElement(OpticalElement):
         return_scale : float
             if True, will return a tuple containing the desired array and a float giving the
             pixel scale.
+        gray_pixel : bool
+            Use oversampling to produce gray pixels at the edges of optics. If true, the optic is sampled
+            at a higher resolution and then binned down.
+        gray_pixel_oversample : int
+            Scaling factor for use in oversampling when applying the gray pixel approximation.
+
         """
+        if gray_pixel:
+            highres_sampled = self.sample(wavelength=wavelength, npix=npix*gray_pixel_oversample, what=what,
+                    return_scale=return_scale, phase_unit=phase_unit, gray_pixel=False)
+            sampled = utils.krebin(highres_sampled, (npix, npix))/gray_pixel_oversample**2
+            return sampled
+
+
         if self.planetype != PlaneType.image:
             if grid_size is not None:
                 diam = grid_size if isinstance(grid_size, u.Quantity) else grid_size * u.meter
