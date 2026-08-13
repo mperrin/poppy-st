@@ -17,7 +17,10 @@ POPPY may be installed one of two different ways.
 Requirements
 --------------
 
-* Python 3.10, or more recent.
+* Minimum versions required for Python itself and required Python packages are set based on the recommendations
+  in `SPEC 0 (Scientific Python Ecosystem Coordination 0) <https://scientific-python.org/specs/spec-0000/>`_.
+  Specifically this means that we aim to support Python major versions going back 3 years,
+  and core package dependencies going back 2 years. Refer to `pyproject.toml` for the current minimum versions.
 * The standard Python scientific stack: :py:mod:`numpy`, :py:mod:`scipy`,
   :py:mod:`matplotlib`
 * POPPY relies upon the `astropy

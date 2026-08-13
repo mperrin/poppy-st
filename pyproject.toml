@@ -11,6 +11,7 @@ description = "Physical optics propagation (wavefront diffraction) for optical s
 authors = [
     { name = "Marshall Perrin", email = "mperrin@stsci.edu" },
 ]
+# Minimum supported dependencies are set according to SPEC0. See https://scientific-python.org/specs/spec-0000/
 requires-python = ">=3.12"
 dependencies = [
     "numexpr>=2.11",
